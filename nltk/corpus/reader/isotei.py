@@ -1,8 +1,10 @@
+print('Started importing inel tei corpus')
 """
 A reader for corpora whose documents are in INELTEI format.
 """
 import os
 import re
+import nltk
 from functools import reduce
 
 from six import string_types
@@ -15,7 +17,7 @@ def xpath(root, path, ns):
     return root.findall(path, ns)
 
 
-class INELTEOCorpusView(XMLCorpusView):
+class INELTEICorpusView(XMLCorpusView):
     """
     Class for lazy viewing the INELTEI Corpus.
     """
@@ -34,7 +36,7 @@ class INELTEOCorpusView(XMLCorpusView):
 
 class INELTEIFileReader:
     """
-    Class for loading the content of the multext-east corpus. It
+    Class for loading the content of the inel corpora. It
     parses the xml files and does some tag-filtering depending on the
     given method parameters.
     """
@@ -45,9 +47,12 @@ class INELTEIFileReader:
     }
     tag_ns = '{http://www.tei-c.org/ns/1.0}'
     xml_ns = '{http://www.w3.org/XML/1998/namespace}'
-    word_path = "TEI/text/body/div/div/p/s/(w|c)"
-    sent_path = "TEI/text/body/div/div/p/s"
-    para_path = "TEI/text/body/div/div/p"
+
+    word_path = 'TEI/text/body/annotationBlock/spanGrp/span/span'
+    sent_path = "TEI/text/body/annotationBlock/u/seg"
+    para_path = "TEI/text/body/annotationBlock/u"
+    morph_path = "TEI/text/body/annotationBlock/u/seg/w"
+    enggloss_path = 'TEI/text/body/annotationBlock/spanGrp[@type="ge"]/span/span'
 
     def __init__(self, file_path):
         self.__file_path = file_path
@@ -63,6 +68,14 @@ class INELTEIFileReader:
     @classmethod
     def _para_elt(cls, elt, context):
         return [cls._sent_elt(s, None) for s in xpath(elt, '*', cls.ns)]
+
+    @classmethod
+    def _morph_elt(cls, elt, context):
+        return [cls._morph_elt(s, None) for m in xpath(elt, '*', cls.ns)]
+
+    @classmethod
+    def _enggloss_elt(cls, elt, context):
+        return [cls._enggloss_elt(s, None) for g in xpath(elt, '*', cls.ns)]
 
     @classmethod
     def _tagged_word_elt(cls, elt, context):
@@ -132,6 +145,16 @@ class INELTEIFileReader:
     def paras(self):
         return INELTEICorpusView(
             self.__file_path, INELTEIFileReader.para_path, INELTEIFileReader._para_elt
+        )
+
+    def morphs(self):
+        return INELTEICorpusView(
+            self.__file_path, INELTEIFileReader.word_path, INELTEIFileReader._morph_elt
+        )
+    
+    def enggloss(self):
+        return INELTEICorpusView(
+            self.__file_path, INELTEIFileReader.word_path, INELTEIFileReader._enggloss_elt
         )
 
     def lemma_words(self):
@@ -299,6 +322,34 @@ class INELTEICorpusReader(TaggedCorpusReader):
             ]
         )
 
+    def morphs(self, fileids=None):
+        """
+	    :param fileids: A list specifying the fileids that should be used.
+        :return: the given file(s) as a list of paragraphs, each encoded as a list
+                 of sentences, which are in turn encoded as lists of word string
+        :rtype: list(list(list(str)))
+        """
+        return concat(
+            [
+                INELTEIFileReader(os.path.join(self._root, f)).morphs()
+                for f in self.__fileids(fileids)
+            ]
+        )
+
+    def enggloss(self, fileids=None):
+        """
+	    :param fileids: A list specifying the fileids that should be used.
+        :return: the given file(s) as a list of paragraphs, each encoded as a list
+                 of sentences, which are in turn encoded as lists of word string
+        :rtype: list(list(list(str)))
+        """
+        return concat(
+            [
+                INELTEIFileReader(os.path.join(self._root, f)).enggloss()
+                for f in self.__fileids(fileids)
+            ]
+        )
+
     def lemma_words(self, fileids=None):
         """
 	    :param fileids: A list specifying the fileids that should be used.
@@ -412,3 +463,20 @@ class INELTEICorpusReader(TaggedCorpusReader):
             )
         else:
             print("Unknown tagset specified.")
+
+"""
+inel_dir = nltk.data.find('corpora/Daten/KamasTEI')
+my_inelcorp = nltk.corpus.XMLCorpusReader(inel_dir, '.*\.xml')
+print('Unparsed first word:', my_inelcorp.words('AA_1914_Brothers_flk.xml')[1])
+"""
+parsedinel_dir = nltk.data.find('corpora/Daten/KamasTEI/AA_1914_Brothers_flk.xml')
+my_parsedinelcorp = INELTEIFileReader(parsedinel_dir)
+print('Parsed words:', my_parsedinelcorp.words())
+print('Parsed sentences:', my_parsedinelcorp.sents())
+print('Parsed morphs:', my_parsedinelcorp.morphs())
+print('Parsed english glosses:', my_parsedinelcorp.enggloss())
+text_file = open("Output.txt", "w")
+words = my_parsedinelcorp.words()
+text_file.write('\n'.join(words))
+text_file.close()
+print('Printed output to Output.txt')
