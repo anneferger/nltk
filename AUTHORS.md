@@ -57,6 +57,7 @@
 - Campion Fellin
 - Michelle Fullwood
 - Dan Garrette
+- Maciej Gawinecki
 - Jean Mark Gawron
 - Sumukh Ghodke
 - Yoav Goldberg
@@ -78,6 +79,7 @@
 - Helder
 - Michael Heilman
 - Ofer Helman
+- Christopher Hench
 - Bruce Hill
 - Amy Holland
 - Kristy Hollingshead
@@ -236,14 +238,29 @@
 - Anlan Du
 - Pulkit Maloo <https://github.com/pulkitmaloo>
 - Brandon M. Burroughs <https://github.com/brandonmburroughs>
+- John Stewart <https://github.com/free-variation>
 - Iaroslav Tymchenko <https://github.com/myproblemchild>
 - Aleš Tamchyna
 - Tim Gianitsos <https://github.com/timgianitsos>
+- Philippe Partarrieu <https://github.com/ppartarr>
 - Andrew Owen Martin
 - Adrian Ellis <https://github.com/adrianjellis>
 - Nat Quayle Nelson <https://github.com/nqnstudios>
+- Yanpeng Zhao <https://github.com/zhaoyanpeng>
 - Matan Rak <https://github.com/matanrak>
+- Nick Ulle <https://github.com/nick-ulle>
 - Uday Krishna <https://github.com/udaykrishna>
+- Osman Zubair <https://github.com/okz12>
+- Viresh Gupta <https://github.com/virresh>
+- Ondřej Cífka <https://github.com/cifkao>
+- Iris X. Zhou <https://github.com/irisxzhou>
+- Devashish Lal <https://github.com/BLaZeKiLL>
+- Gerhard Kremer <https://github.com/GerhardKa>
+- Nicolas Darr <https://github.com/ndarr>
+- Hervé Nicol <https://github.com/hervenicol>
+- Alexandre H. T. Dias <https://github.com/alexandredias3d>
+- Jacob Weightman <https://github.com/jacobdweightman>
+- Bonifacio de Oliveira <https://github.com/Bonifacio2>
 
 ## Others whose work we've taken and included in NLTK, but who didn't directly contribute it:
 ### Contributors to the Porter Stemmer

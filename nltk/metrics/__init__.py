@@ -1,6 +1,6 @@
 # Natural Language Toolkit: Metrics
 #
-# Copyright (C) 2001-2019 NLTK Project
+# Copyright (C) 2001-2020 NLTK Project
 # Author: Steven Bird <stevenbird1@gmail.com>
 #         Edward Loper <edloper@gmail.com>
 # URL: <http://nltk.org/>
@@ -24,6 +24,7 @@ from nltk.metrics.scores import (
 from nltk.metrics.confusionmatrix import ConfusionMatrix
 from nltk.metrics.distance import (
     edit_distance,
+    edit_distance_align,
     binary_distance,
     jaccard_distance,
     masi_distance,
@@ -39,6 +40,7 @@ from nltk.metrics.association import (
     NgramAssocMeasures,
     BigramAssocMeasures,
     TrigramAssocMeasures,
+    QuadgramAssocMeasures,
     ContingencyMeasures,
 )
 from nltk.metrics.spearman import (
