@@ -61,6 +61,7 @@ For example, to read a list of the words in the Brown Corpus, use
 
 import re
 
+from nltk.corpus.reader.isotei import INELTEICorpusReader
 from nltk.tokenize import RegexpTokenizer
 from nltk.corpus.util import LazyCorpusLoader
 from nltk.corpus.reader import *
@@ -181,7 +182,9 @@ inaugural = LazyCorpusLoader(
 indian = LazyCorpusLoader(
     "indian", IndianCorpusReader, r"(?!\.).*\.pos", tagset="unknown", encoding="utf8"
 )
-
+iso_tei = LazyCorpusLoader(
+    "iso_teip5", INELTEICorpusReader, r".*\.xml", encoding="utf-8"
+)
 jeita = LazyCorpusLoader("jeita", ChasenCorpusReader, r".*\.chasen", encoding="utf-8")
 knbc = LazyCorpusLoader("knbc/corpus1", KNBCorpusReader, r".*/KN.*", encoding="euc-jp")
 lin_thesaurus = LazyCorpusLoader("lin_thesaurus", LinThesaurusCorpusReader, r".*\.lsp")

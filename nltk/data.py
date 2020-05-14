@@ -97,6 +97,7 @@ else:
         str("/usr/local/share/nltk_data"),
         str("/usr/lib/nltk_data"),
         str("/usr/local/lib/nltk_data"),
+        str("/home/anne/Schreibtisch/ProPro/propro/data/nltk_data"),
     ]
 
 
